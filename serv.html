@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/css/fonts.css">
+<title>Side Wheel Text Carousel</title>
+
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: #000000;
+        font-family: Inferno Racers;
+        letter-spacing: 0.1rem;
+        overflow: hidden;
+    }
+
+    .wheel-container {
+        position: relative;
+        width: 400px;
+        height: 80px;
+        perspective: 800px; /* IMPORTANT for 3D depth */
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transform-style: preserve-3d;
+        transition: transform 1s ease-in-out;
+    }
+
+    li {
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        font-size: 1rem;
+        font-weight: 700;
+        color: #fff;
+        opacity: 0.25;
+        transform-origin: center;
+        filter: blur(3px);
+        transition: all 0.8s ease-in-out;
+    }
+
+    li.active {
+        opacity: 1;
+        filter: blur(0px);
+        font-size: 1.5rem;
+        transform: translateZ(80px) rotateY(0deg);
+    }
+
+    /* Left + Right tilted elements */
+    li.left {
+        transform: translateX(-120px) rotateY(45deg);
+    }
+   
+    li.right {
+        transform: translateX(120px) rotateY(-45deg);
+    }
+
+    /* Behind elements */
+    li.behind {
+        transform: translateZ(-200px) rotateY(0deg);
+    }
+
+    
+
+   
+    
+</style>
+</head>
+
+<body>
+
+<div class="wheel-container">
+    <ul id="wheel">
+        <li>Branding</li>
+        <li>Marketing</li>
+        <li>Advertising</li>
+        <li>Production</li>
+        <li>Ad Films</li>
+        <li>Film Posters</li>
+        <li>Brand Identity</li>
+        <li>Cinematic Campaigns</li>
+        <li>Video Production & Editing</li>
+        <li>Digital Strategy</li>
+        <li>Creative Direction</li>
+        <li>Social Media Storytelling</li>
+    </ul>
+</div>
+
+
+<script>
+    const items = document.querySelectorAll("#wheel li");
+    let index = 0;
+
+    function updateItems() {
+        items.forEach((item, i) => {
+            let pos = (i - index + items.length) % items.length;
+            item.className = "";
+
+            if (pos === 0) item.classList.add("active");
+            else if (pos === 1) item.classList.add("right");
+            else if (pos === items.length - 1) item.classList.add("left");
+            else item.classList.add("behind");
+        });
+    }
+
+    function rotateWheel(direction) {
+        index = (index + direction + items.length) % items.length;
+        updateItems();
+    }
+
+    updateItems();
+    setInterval(() => rotateWheel(1), 3000);
+</script>
+
+</body>
+</html>
